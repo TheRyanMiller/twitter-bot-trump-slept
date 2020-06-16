@@ -11,18 +11,14 @@ module.exports = () => {
         access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
     });
 
-    morningStartTime = "04:00";
-    morningEndTime = "08:00";
-    nightStartTime = "22:30";
-
     let today = moment().format('YYYY-MM-DD');
     let yesterday = moment().subtract(1, "days").format('YYYY-MM-DD');
 
-    let lateNightBegin = moment(yesterday + " " + nightStartTime).format().valueOf();
-    let lateNightEnd = moment(today + " " + morningStartTime).format().valueOf();
+    let lateNightBegin = moment(yesterday + " " + process.env.NIGHT_START_TIME).format().valueOf();
+    let lateNightEnd = moment(today + " " + MORNING_START_TIME).format().valueOf();
 
-    let earlyMorningBegin = moment(today + " " + morningStartTime).format().valueOf();
-    let earlyMorningEnd = moment(today + " " + morningEndTime).format().valueOf();
+    let earlyMorningBegin = moment(today + " " + MORNING_START_TIME).format().valueOf();
+    let earlyMorningEnd = moment(today + " " + MORNING_END_TIME).format().valueOf();
 
     let bedtime;
     let waketime;

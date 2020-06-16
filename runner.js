@@ -4,7 +4,7 @@ const cron = require('node-cron');
 require('dotenv').config()
 
 const intervalInMins = process.env.COLLECTOR_INTERVAL_MINS;
-const postTime = process.env.POST_TIME_HOURS_AFTER_MIDNIGHT;
+const postTime = process.env.DAILY_POST_TIME_HOURS_AFTER_MIDNIGHT;
 
 let collectorTask = cron.schedule("*/"+intervalInMins+" * * * *", () => {
     tweetCollector();
