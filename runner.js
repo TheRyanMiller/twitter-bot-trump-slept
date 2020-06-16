@@ -6,6 +6,8 @@ require('dotenv').config()
 const intervalInMins = process.env.COLLECTOR_INTERVAL_MINS;
 const postTime = process.env.DAILY_POST_TIME_HOURS_AFTER_MIDNIGHT;
 
+console.log("Starting bot...");
+
 let collectorTask = cron.schedule("*/"+intervalInMins+" * * * *", () => {
     tweetCollector();
     require('./tweetCollector');

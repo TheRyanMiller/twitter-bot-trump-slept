@@ -1,6 +1,6 @@
 require('dotenv').config()
 const Twitter = require('twitter');
-const Tweet = require('./tweetSchema');
+const database = require('./dbSchemas');
 const moment = require('moment');
 
 module.exports = () => {
@@ -15,17 +15,19 @@ module.exports = () => {
     let yesterday = moment().subtract(1, "days").format('YYYY-MM-DD');
 
     let lateNightBegin = moment(yesterday + " " + process.env.NIGHT_START_TIME).format().valueOf();
-    let lateNightEnd = moment(today + " " + MORNING_START_TIME).format().valueOf();
+    let lateNightEnd = moment(today + " " + process.env.MORNING_START_TIME).format().valueOf();
 
-    let earlyMorningBegin = moment(today + " " + MORNING_START_TIME).format().valueOf();
-    let earlyMorningEnd = moment(today + " " + MORNING_END_TIME).format().valueOf();
+    let earlyMorningBegin = moment(today + " " + process.env.MORNING_START_TIME).format().valueOf();
+    let earlyMorningEnd = moment(today + " " + process.env.MORNING_END_TIME).format().valueOf();
 
     let bedtime;
     let waketime;
 
+    let sleepLog;
+
     /*Query late night*/
     const promise1 = new Promise((resolve, reject) => {
-        Tweet.model
+        database.tweet
         .findOne({"created_at": { $gt : lateNightBegin, $lt : lateNightEnd } })
         .sort({"created_at": 1})
         .then(t => {
@@ -39,7 +41,7 @@ module.exports = () => {
 
     /*Query early morning*/
     const promise2 = new Promise((resolve, reject) => {
-        Tweet.model
+        database.tweet
             .findOne({"created_at": { $gt : earlyMorningBegin, $lt : earlyMorningEnd } })
             .sort({"created_at": 1})
             .then(t => {
@@ -58,6 +60,14 @@ module.exports = () => {
         const totalSleep = moment.utc(sleepSeconds*1000).format('HH:mm:ss');
         console.log(totalSleep);
         ptotals = totalSleep.split(":");
+        sleepLog = new database.sleepLog({
+            date: moment().format("MM-DD-YYYY"),
+            sleepDuration: totalSleep
+        })
+        sleepLog.save( err => {
+            if(err) console.log(err);
+        })
+        
         let message = "Good morning!\nI slept a total of "+Number(ptotals[0])+" hours, "+Number(ptotals[1])+" minutes, and "+Number(ptotals[2])+" seconds last night!";
         client.post('statuses/update', {
             status: message
@@ -70,8 +80,6 @@ module.exports = () => {
             else{
                 console.log("Tweet Posted Successfully!")
             }
-            //console.log(tweet);  // Tweet body.
-            //console.log(response);  // Raw response object.
         });  
     })
 }

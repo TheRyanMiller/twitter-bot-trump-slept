@@ -1,6 +1,6 @@
 require('dotenv').config()
 const Twitter = require('twitter');
-const Tweet = require('./tweetSchema');
+const database = require('./dbSchemas');
 const moment = require('moment');
 
 
@@ -16,7 +16,7 @@ module.exports = () => {
 
     client.get('statuses/user_timeline', { 
         // user_id: '',
-        screen_name: 'realDonaldTrump',
+        screen_name: process.env.TWITTER_USER_TO_TRACKS_SCREEN_NAME,
         count: process.env.COLLECTOR_TWEET_COUNT,
         exclude_replies:false,
         include_rts: true
@@ -27,7 +27,7 @@ module.exports = () => {
             console.log("Number of tweets found: ",tweet.length)
             tweet.forEach(t => {
                 try{
-                    tempTweet = new Tweet.model({
+                    tempTweet = new database.tweet({
                         id: t.id_str, 
                         status: t.text, 
                         author: t.user.id, 

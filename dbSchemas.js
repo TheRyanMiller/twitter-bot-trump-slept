@@ -21,4 +21,18 @@ const tweetSchema = new Schema({
     }
 });
 
-const Tweet = exports.model = mongoose.model("tweet", tweetSchema);
+const Tweet = exports.tweet = mongoose.model("tweet", tweetSchema);
+
+const sleepLogSchema = new Schema({ 
+  date: {
+    type: String,
+    required: true
+  },
+  sleepDuration: {
+    type: String,
+    required: true
+  }}, 
+  { timestamps: true }
+);
+
+const SleepLog = exports.sleepLog = mongoose.model("sleeplog", sleepLogSchema);

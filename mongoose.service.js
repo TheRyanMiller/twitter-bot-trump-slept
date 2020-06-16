@@ -14,7 +14,6 @@ const options = {
 let dbString = process.env.MONGO_URL_DEV;
 let count = 0;
 const connectWithRetry = () => {
-    console.log('MongoDB connection with retry')
     mongoose.connect(dbString, options).then(()=>{
         console.log('MongoDB is connected')
     }).catch(err=>{
