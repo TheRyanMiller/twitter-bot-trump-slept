@@ -1,13 +1,17 @@
 const tweetCollector = require('./tweetCollector');
 const tweetPoster = require('./tweetPoster');
 const cron = require('node-cron');
+require('dotenv').config()
 
-let collectorTask = cron.schedule("*/5 * * * *", () => {
+const intervalInMins = process.env.COLLECTOR_INTERVAL_MINS;
+const postTime = process.env.POST_TIME_HOURS_AFTER_MIDNIGHT;
+
+let collectorTask = cron.schedule("*/"+intervalInMins+" * * * *", () => {
     tweetCollector();
     require('./tweetCollector');
 });
 
-let postTask = cron.schedule("0 9 * * *", () => {
+let postTask = cron.schedule("0 "+postTime+" * * *", () => {
     tweetPoster();
     console.log("Posting!");
 });

@@ -17,7 +17,7 @@ module.exports = () => {
     client.get('statuses/user_timeline', { 
         // user_id: '',
         screen_name: 'realDonaldTrump',
-        count: 50,
+        count: process.env.COLLECTOR_TWEET_COUNT,
         exclude_replies:false,
         include_rts: true
     },  
