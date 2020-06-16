@@ -14,7 +14,6 @@ module.exports = () => {
 
     let tempTweet;
 
-    console.log("Collecting tweets!!!!");
     client.get('statuses/user_timeline', { 
         // user_id: '',
         screen_name: 'realDonaldTrump',
