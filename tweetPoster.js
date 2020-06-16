@@ -1,4 +1,4 @@
-require('dotenv').config()
+require('dotenv').config();
 const Twitter = require('twitter');
 const database = require('./dbSchemas');
 const moment = require('moment');
@@ -26,7 +26,7 @@ module.exports = () => {
     let sleepLog;
 
     /*Query late night*/
-    const promise1 = new Promise((resolve, reject) => {
+    const queryNightTweet = new Promise((resolve, reject) => {
         database.tweet
         .findOne({"created_at": { $gt : lateNightBegin, $lt : lateNightEnd } })
         .sort({"created_at": 1})
@@ -40,12 +40,14 @@ module.exports = () => {
     })
 
     /*Query early morning*/
-    const promise2 = new Promise((resolve, reject) => {
+    const queryMorningTweet = new Promise((resolve, reject) => {
         database.tweet
             .findOne({"created_at": { $gt : earlyMorningBegin, $lt : earlyMorningEnd } })
             .sort({"created_at": 1})
             .then(t => {
-                if(!t) waketime = moment(earlyMorningEnd).format('YYYY-MM-DD HH:mm:ss');
+                if(!t){
+                    waketime = moment(earlyMorningEnd).format('YYYY-MM-DD HH:mm:ss');
+                }
                 else{
                     waketime = moment(t.created_at).format('YYYY-MM-DD HH:mm:ss');
                 }
@@ -53,12 +55,9 @@ module.exports = () => {
             })
     })
 
-    Promise.all([promise1, promise2]).then(values => {
-        console.log("BEDTIME: ",bedtime);
-        console.log("WAKETIME: ",waketime);
+    Promise.all([queryNightTweet, queryMorningTweet]).then(values => {
         let sleepSeconds = moment(waketime).diff(moment(bedtime),'seconds')
         const totalSleep = moment.utc(sleepSeconds*1000).format('HH:mm:ss');
-        console.log(totalSleep);
         ptotals = totalSleep.split(":");
         sleepLog = new database.sleepLog({
             date: moment().format("MM-DD-YYYY"),
@@ -67,8 +66,8 @@ module.exports = () => {
         sleepLog.save( err => {
             if(err) console.log(err);
         })
-        
-        let message = "Good morning!\nI slept a total of "+Number(ptotals[0])+" hours, "+Number(ptotals[1])+" minutes, and "+Number(ptotals[2])+" seconds last night!";
+
+        let message = "Good morning!\nI slept a total of "+Number(ptotals[0])+" hours, "+Number(ptotals[1])+" minutes, and "+Number(ptotals[2])+" seconds last night.";
         client.post('statuses/update', {
             status: message
         },  function(error, tweet, response) {

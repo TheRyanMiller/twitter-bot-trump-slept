@@ -1,5 +1,6 @@
 const tweetCollector = require('./tweetCollector');
 const tweetPoster = require('./tweetPoster');
+const sleepChart = require('./sleepChart');
 const cron = require('node-cron');
 require('dotenv').config()
 
@@ -10,10 +11,14 @@ console.log("Starting bot...");
 
 let collectorTask = cron.schedule("*/"+intervalInMins+" * * * *", () => {
     tweetCollector();
-    require('./tweetCollector');
 });
 
 let postTask = cron.schedule("0 "+postTime+" * * *", () => {
     tweetPoster();
-    console.log("Posting!");
+    console.log("Posting daily sleep.");
+});
+
+let postSleepChart = cron.schedule("1 "+postTime+" * * 6", () => {
+    sleepChart();
+    console.log("Posting sleep chart.");
 });
