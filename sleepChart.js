@@ -9,7 +9,7 @@ require('dotenv').config();
 
 module.exports = () => {
 
-  let chartUrl="https://chart.googleapis.com/chart?chs=300x180&cht=lc&chtt=@trump_slept&chts=ff3300&chco=0033cc,224499&chds=0,10&chxt=x,y,y&chxl=0:|Sun|Mon|Tues|Weds|Thurs|Fri|Sat|1:||2|4|6|8|10|2:|Hours|&chxp=2,50|3,50&chls=1|1&chd=t:"
+  let chartUrl="https://chart.googleapis.com/chart?chs=300x150&cht=lc&chtt=@trump_slept&chts=ff3300&chco=0033cc,224499&chds=0,10&chxt=x,y,y&chxl=0:|Sun|Mon|Tues|Weds|Thurs|Fri|Sat|1:||2|4|6|8|10|2:|Hours|&chxp=2,50|3,50&chls=1|1&chd=t:"
 
   //Fetch Sleep data from db
   let sleepValues = [];
@@ -23,7 +23,9 @@ module.exports = () => {
   });
 
   /* Collect last 7 days of sleep logs */
-  database.sleepLog.find({createdAt : {$gt : moment().subtract(1,'week')}}).then(resp=>{
+  database.sleepLog.find({createdAt : {$gt : moment().subtract(1,'week')}})
+  .sort({"createdAt": 1})
+  .then(resp=>{
       let counter = 0;
       resp.forEach(log=>{
           counter++;
