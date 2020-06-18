@@ -4,24 +4,23 @@ const Twitter = require('twitter');
 const path = require('path');
 const fs = require('fs');
 const database = require('./dbSchemas');
+const tweetCollector = require('./tweetCollector');
+const tweetPoster = require('./tweetPoster');
 require('dotenv').config();
 
-let url="https://chart.googleapis.com/chart?chs=300x180&cht=lc&chtt=@trump_slept&chts=ff3300&chco=0033cc,224499&chds=0,8&chxt=x,x,y,y&chxl=0:|Sun|Mon|Tues|Weds|Thurs|Fri|Sat|1:|Day|2:||2|4|6|8|3:|Hours|&chxp=1,50|3,50&chls=1|1&chd=t:"
-url+="7,1,6,1,1";
+tweetCollector();
+// let today = moment().format('YYYY-MM-DD');
+// let earlyMorningEnd = moment(today + " " + process.env.MORNING_END_TIME).format().valueOf();
+// waketime = moment(earlyMorningEnd).format('YYYY-MM-DD HH:mm:ss');
+// let bedtime=moment("2020-06-16 23:27:56","YYYY-MM-DD HH:mm:ss");
+// console.log(moment(bedtime).format('YYYY-MM-DD HH:mm:ss'))
+// console.log()
 
-//Fetch Sleep data from db
-let sleepValues = [];
-database.sleepLog.find({createdAt : {$gt : moment().subtract(1,'week')}}).then(resp=>{
-    //console.log(resp);
-    let counter = 0;
-    resp.forEach(log=>{
-        counter++;
-        hrs=Number(log.sleepDuration.split(":")[0]);
-        mins=Number(log.sleepDuration.split(":")[1])+Number(log.sleepDuration.split(":")[2])/60;
-        sleepValues.push(hrs+(mins/60));
-        if(counter>6) return;
-    })
-    console.log(sleepValues)
-});
+// console.log(moment(earlyMorningEnd).format('YYYY-MM-DD HH:mm:ss'))
+// console.log(waketime)
+// console.log()
 
-let today = moment().format('MM-DD-YYYY');
+
+// let sleepSeconds = moment(earlyMorningEnd).diff(moment(bedtime),'seconds')
+// const totalSleep = moment.utc(sleepSeconds*1000).format('HH:mm:ss');
+// console.log(totalSleep)

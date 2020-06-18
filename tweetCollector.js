@@ -18,8 +18,8 @@ module.exports = () => {
         // user_id: '',
         screen_name: process.env.TWITTER_USER_TO_TRACKS_SCREEN_NAME,
         count: process.env.COLLECTOR_TWEET_COUNT,
-        exclude_replies:false,
-        include_rts: true
+        exclude_replies: false,
+        include_rts: 1
     },  
         function(error, tweet, response) {
             if(error) console.log(error);

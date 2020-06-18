@@ -22,14 +22,13 @@ module.exports = () => {
 
     let bedtime;
     let waketime;
-
     let sleepLog;
 
     /*Query late night*/
     const queryNightTweet = new Promise((resolve, reject) => {
         database.tweet
         .findOne({"created_at": { $gt : lateNightBegin, $lt : lateNightEnd } })
-        .sort({"created_at": 1})
+        .sort({"created_at": -1})
         .then(t => {
             if(!t) bedtime = moment(lateNightBegin).format('YYYY-MM-DD HH:mm:ss');
             else{
@@ -56,7 +55,7 @@ module.exports = () => {
     })
 
     Promise.all([queryNightTweet, queryMorningTweet]).then(values => {
-        let sleepSeconds = moment(waketime).diff(moment(bedtime),'seconds')
+        let sleepSeconds = moment(waketime).diff(moment(bedtime),'seconds');
         const totalSleep = moment.utc(sleepSeconds*1000).format('HH:mm:ss');
         ptotals = totalSleep.split(":");
         sleepLog = new database.sleepLog({
@@ -73,7 +72,7 @@ module.exports = () => {
         },  function(error, tweet, response) {
             if(error) {
                 console.log(error);
-                console.log("ERROR!!!")
+                console.log("ERROR!!!")  
                 return;
             }
             else{
