@@ -40,7 +40,7 @@ module.exports = () => {
       chartUrl = chartUrl.substring(0, chartUrl.length - 1);
       const options = {
           url: chartUrl,
-          dest: './charts/'+today+'.jpg'
+          dest: process.env.IMAGE_DIRECTORY_LOCATION+today+'.jpg'
       }
 
 

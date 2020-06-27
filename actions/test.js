@@ -1,14 +1,12 @@
 const download = require('image-downloader');
 const moment = require('moment');
 const Twitter = require('twitter');
-const path = require('path');
-const fs = require('fs');
-const database = require('./dbSchemas');
-const tweetCollector = require('./tweetCollector');
-const tweetPoster = require('./tweetPoster');
 require('dotenv').config();
 
-tweetCollector();
+const fs = require('fs');
+const path = require('path');
+const dirPath = path.join(__dirname, '/swamp-pix');
+console.log(dirPath)
 // let today = moment().format('YYYY-MM-DD');
 // let earlyMorningEnd = moment(today + " " + process.env.MORNING_END_TIME).format().valueOf();
 // waketime = moment(earlyMorningEnd).format('YYYY-MM-DD HH:mm:ss');
