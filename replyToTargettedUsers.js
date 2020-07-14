@@ -33,13 +33,13 @@ module.exports = () => {
                 if(moment(tweet[0].created_at, 'dd MMM DD HH:mm:ss ZZ YYYY', 'en').isAfter(twoMinutesAgo)){
                     replyTweetId = tweet[0].id_str;
                     console.log("Replying to: ","@"+u);
-                    replyToTweet(u);
+                    replyToTweet(u, replyTweetId);
                 }
             }
         );
     });
 
-    const replyToTweet = (u) => {
+    const replyToTweet = (u, replyTweetId) => {
         let today = moment().format('MM-DD-YYYY');
         buildChart(today).then( result => {
             uploadAndTweet();

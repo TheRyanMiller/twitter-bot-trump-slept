@@ -24,7 +24,6 @@ module.exports = () => {
         function(error, tweet, response) {
             if(error) console.log(error);
             //throw error
-            console.log("Number of tweets found: ",tweet.length)
             tweet.forEach(t => {
                 try{
                     tempTweet = new database.tweet({
