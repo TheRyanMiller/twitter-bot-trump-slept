@@ -55,7 +55,7 @@ module.exports = () => {
             database.sleepLog.find({}).sort({createdAt: -1}).limit(1).then( log => {
                 if(log[0].sleepDuration){
                     ptotals = log[0].sleepDuration.split(":");
-                    status = "@"+u+"Donald Trump, slept for "+ptotals[0]+" hours, "+ptotals[1]+" minutes, "+ptotals[2]+" seconds last night.";
+                    status = "@"+u+" Donald Trump, slept for "+ptotals[0]+" hours, "+ptotals[1]+" minutes, "+ptotals[2]+" seconds last night.";
                     status = status+"\nFollow me for more Trump sleep stats!";
                     client.post('media/upload', { media_data: b64content }, function (err, data, response) {
                         if (err){
