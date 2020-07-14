@@ -14,7 +14,6 @@ module.exports = (today) => new Promise((resolve, reject) => {
   if(moment().isBefore({ hour: 09, minute: 1 })) dow = dow - 1;
   dayArray = ["Sun","Mon","Tue","Wed","Thur","Fri","Sat"];
   let dayString = "";
-  console.log(dow)
   for(let i=0;i<7;i++){
       tempdow = dow + i > 6 ? dow + i - 7 : dow + i;
       dayString += dayArray[tempdow]+"|";
@@ -44,8 +43,6 @@ module.exports = (today) => new Promise((resolve, reject) => {
         chartUrl+=v+",";
       })
       chartUrl = chartUrl.substring(0, chartUrl.length - 1);
-      console.log(process.env.IMAGE_DIRECTORY_LOCATION+today+'.jpg')
-      console.log(chartUrl);
       const options = {
           url: chartUrl,
           dest: process.env.IMAGE_DIRECTORY_LOCATION+today+'.jpg'

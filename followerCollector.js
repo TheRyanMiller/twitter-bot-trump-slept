@@ -24,7 +24,6 @@ client.get('users/show', {
     function(error, tweet, response) {
         if(error) console.log(error);
         //throw error
-        console.log(tweet.followers_count);
         let followerCount = new database.followerCount({
             follower_count: Number(tweet.followers_count), 
             date: new Date()

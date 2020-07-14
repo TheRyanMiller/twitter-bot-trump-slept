@@ -31,6 +31,6 @@ let dailyFollowerCollector = cron.schedule("1 0 * * *", () => {
 });
 
 let replier = cron.schedule("* * * * *", () => {
+    console.log("Checking tweets from target users...");
     replyToTargettedUsers();
-    console.log("Today's followers collected.");
 });
