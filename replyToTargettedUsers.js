@@ -66,8 +66,8 @@ module.exports = () => {
                           console.log('Image uploaded!');
                           client.post('statuses/update', {
                               status,
-                              media_ids: data.media_id_string,
                               in_reply_to_status_id: ""+replyTweetId,
+                              media_ids: data.media_id_string
                           },
                             function(err, data, response) {
                               if (err){
