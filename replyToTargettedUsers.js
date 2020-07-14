@@ -17,6 +17,7 @@ module.exports = () => {
     let targettedUsers = process.env.TARGETTED_TWITTER_USERS.split(",")
     let replyTweetId = "";
     let status = "";
+    let consoleMsg = "";
 
     targettedUsers.forEach(u=>{
         client.get('statuses/user_timeline', {
@@ -27,13 +28,19 @@ module.exports = () => {
         },  
             function(error, tweet, response) {
                 if(error) console.log(error);
-                
                 //Check if created in last 2 minutes
-                const twoMinutesAgo = moment().subtract(1, 'minutes');
-                if(moment(tweet[0].created_at, 'dd MMM DD HH:mm:ss ZZ YYYY', 'en').isAfter(twoMinutesAgo)){
-                    replyTweetId = tweet[0].id_str;
-                    console.log("Replying to: ","@"+u);
-                    replyToTweet(u, replyTweetId);
+                consoleMsg = "@"+u+": ";
+                if(tweet && tweet.length > 0){
+                    const twoMinutesAgo = moment().subtract(1, 'minutes');
+                    if(moment(tweet[0].created_at, 'dd MMM DD HH:mm:ss ZZ YYYY', 'en').isAfter(twoMinutesAgo)){
+                        replyTweetId = tweet[0].id_str;
+                        consoleMsg = consoleMsg + "Found a recent tweet!";
+                        console.log(consoleMsg);
+                        replyToTweet(u, replyTweetId);
+                    }
+                }
+                else{
+                    console.log(consoleMsg+"Nothing new.");
                 }
             }
         );
