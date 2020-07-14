@@ -36,3 +36,39 @@ const sleepLogSchema = new Schema({
 );
 
 const SleepLog = exports.sleepLog = mongoose.model("sleeplog", sleepLogSchema);
+
+const followerCountSchema = new Schema({ 
+  follower_count: {
+    type: Number,
+    required: true
+  },
+  date: {
+    type: Date,
+    required: true
+  }}, 
+  { timestamps: true }
+);
+
+const FollowerCount = exports.followerCount = mongoose.model("followercount", followerCountSchema);
+
+const replyLogSchema = new Schema({ 
+  originalTweetDate: {
+    type: Date,
+    required: true
+  },
+  replyDate: {
+    type: Date,
+    required: true
+  },
+  originalTweetId: {
+    type: String,
+    required: true
+  }, 
+  replyTweetId: {
+    type: String,
+    required: true
+  }},
+  { timestamps: true }
+);
+
+const ReplyLog = exports.replyLog = mongoose.model("replylog", replyLogSchema);

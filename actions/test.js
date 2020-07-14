@@ -1,24 +1,38 @@
-const download = require('image-downloader');
-const moment = require('moment');
+require('dotenv').config()
 const Twitter = require('twitter');
-require('dotenv').config();
+const database = require('../dbSchemas');
+const moment = require('moment');
 
-const fs = require('fs');
-const path = require('path');
-const dirPath = path.join(__dirname, '/swamp-pix');
-console.log(dirPath)
-// let today = moment().format('YYYY-MM-DD');
-// let earlyMorningEnd = moment(today + " " + process.env.MORNING_END_TIME).format().valueOf();
-// waketime = moment(earlyMorningEnd).format('YYYY-MM-DD HH:mm:ss');
-// let bedtime=moment("2020-06-16 23:27:56","YYYY-MM-DD HH:mm:ss");
-// console.log(moment(bedtime).format('YYYY-MM-DD HH:mm:ss'))
-// console.log()
+let client = new Twitter({
+    consumer_key: process.env.TWITTER_CONSUMER_KEY,
+    consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
+    access_token_key: process.env.TWITTER_ACCESS_TOKEN_KEY,
+    access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
+});
 
-// console.log(moment(earlyMorningEnd).format('YYYY-MM-DD HH:mm:ss'))
-// console.log(waketime)
-// console.log()
+let targettedUsers = process.env.TARGETTED_TWITTER_USERS.split(",")
+let replyTweetId = "";
+let status = "";
 
-
-// let sleepSeconds = moment(earlyMorningEnd).diff(moment(bedtime),'seconds')
-// const totalSleep = moment.utc(sleepSeconds*1000).format('HH:mm:ss');
-// console.log(totalSleep)
+targettedUsers.forEach(u=>{
+    client.get('statuses/user_timeline', {
+        screen_name: u,
+        count: 1,
+        exclude_replies: false,
+        include_rts: 0
+    },  
+        function(error, tweet, response) {
+            if(error) console.log(error);
+            
+            //Check if created in last 2 minutes
+            const twoMinutesAgo = moment().subtract(85, 'minutes');
+            if(moment(tweet[0].created_at, 'dd MMM DD HH:mm:ss ZZ YYYY', 'en').isAfter(twoMinutesAgo)){
+                let dateVal = moment(tweet[0].created_at, 'dd MMM DD HH:mm:ss ZZ YYYY', 'en')
+                replyTweetId = tweet[0].id_str;
+                console.log("Last tweet date: ",moment(dateVal).format("MM-DD-YYYY HH:mm:ss ZZ"))
+                console.log("Last tweet user: ","@"+u);
+                console.log(" --------- ");
+            }
+        }
+    );
+});

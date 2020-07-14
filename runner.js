@@ -1,6 +1,8 @@
 const tweetCollector = require('./tweetCollector');
 const tweetPoster = require('./tweetPoster');
-const tweetChart = require('./sleepChart');
+const tweetChartToTimeline = require('./tweetChartToTimeline');
+const followersCollector = require('./followerCollector');
+const replyToTargettedUsers = require('./replyToTargettedUsers');
 const cron = require('node-cron');
 require('dotenv').config()
 
@@ -19,6 +21,16 @@ let postTask = cron.schedule("0 "+postTime+" * * *", () => {
 });
 
 let postSleepChart = cron.schedule("1 "+postTime+" * * 6", () => {
-    tweetChart();
+    tweetChartToTimeline();
     console.log("Posting sleep chart.");
+});
+
+let dailyFollowerCollector = cron.schedule("1 0 * * *", () => {
+    followerCollector();
+    console.log("Today's followers collected.");
+});
+
+let replyToTargettedUsers = cron.schedule("* * * * *", () => {
+    replyToTargettedUsers();
+    console.log("Today's followers collected.");
 });
