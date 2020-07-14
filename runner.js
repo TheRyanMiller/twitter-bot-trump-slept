@@ -26,7 +26,7 @@ let postSleepChart = cron.schedule("1 "+postTime+" * * 6", () => {
 });
 
 let dailyFollowerCollector = cron.schedule("1 0 * * *", () => {
-    followerCollector();
+    followersCollector();
     console.log("Today's followers collected.");
 });
 
