@@ -38,9 +38,12 @@ module.exports = () => {
                         console.log(consoleMsg);
                         replyToTweet(u, replyTweetId);
                     }
+                    else{
+                        console.log(consoleMsg+"Nothing new.");
+                    }
                 }
                 else{
-                    console.log(consoleMsg+"Nothing new.");
+                    console.log(consoleMsg+"Zero tweets returned.");
                 }
             }
         );
