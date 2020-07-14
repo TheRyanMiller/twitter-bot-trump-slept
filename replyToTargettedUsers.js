@@ -22,7 +22,7 @@ module.exports = () => {
         client.get('statuses/user_timeline', {
             screen_name: u,
             count: 1,
-            exclude_replies: false,
+            exclude_replies: true,
             include_rts: 0
         },  
             function(error, tweet, response) {
