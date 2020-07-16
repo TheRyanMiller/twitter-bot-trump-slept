@@ -66,7 +66,7 @@ module.exports = () => {
             if(err) console.log(err);
         })
 
-        let message = "Good morning!\nI slept a total of "+Number(ptotals[0])+" hours, "+Number(ptotals[1])+" minutes, and "+Number(ptotals[2])+" seconds last night.";
+        let message = "Good morning! 🌞\nI slept a total of "+Number(ptotals[0])+" hours, "+Number(ptotals[1])+" minutes, and "+Number(ptotals[2])+" seconds last night.";
         client.post('statuses/update', {
             status: message
         },  function(error, tweet, response) {
