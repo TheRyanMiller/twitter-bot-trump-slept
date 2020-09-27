@@ -31,8 +31,8 @@ module.exports = () => {
                 //Check if created in last 2 minutes
                 consoleMsg = "@"+u+": ";
                 if(tweet && tweet.length > 0){
-                    const twoMinutesAgo = moment().subtract(1, 'minutes');
-                    if(moment(tweet[0].created_at, 'dd MMM DD HH:mm:ss ZZ YYYY', 'en').isAfter(twoMinutesAgo)){
+                    const oneHourAgo = moment().subtract(1, 'hours');
+                    if(moment(tweet[0].created_at, 'dd MMM DD HH:mm:ss ZZ YYYY', 'en').isAfter(oneHourAgo)){
                         replyTweetId = tweet[0].id_str;
                         consoleMsg = consoleMsg + "Found a recent tweet!";
                         console.log(consoleMsg);
