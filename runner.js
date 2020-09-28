@@ -30,7 +30,7 @@ let dailyFollowerCollector = cron.schedule("1 0 * * *", () => {
     console.log("Today's followers collected.");
 });
 
-if(process.env.ENABLE_REPLIES){
+if(process.env.ENABLE_REPLIES==="true"){
     let replier = cron.schedule("0 * * * *", () => {
         console.log("Checking tweets from target users...");
         replyToTargettedUsers();
